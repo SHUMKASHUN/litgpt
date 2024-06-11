@@ -60,21 +60,6 @@ train:
   # Whether to tie the embedding weights with the language modeling head weights. (type: Optional[bool], default: False)
   tie_embeddings:
 
-  # The peak learning rate
-  # The higher this is, the more the model will "forget" from initial pretraining
-  # The lower this is, the slower the adaption to the new data
-  #   (type: float, default: 0.0004)
-  learning_rate: 0.00002
-
-  #   (type: float, default: 0.1)
-  weight_decay: 0.1
-
-  #   (type: float, default: 0.9)
-  beta1: 0.9
-
-  #   (type: float, default: 0.95)
-  beta2: 0.95
-
   #   (type: Optional[float], default: 1.0)
   max_norm: 1.0
 
@@ -105,3 +90,21 @@ logger_name: wandb
 
 # The random seed to use for reproducibility. (type: int, default: 42)
 seed: 42
+
+# Optimizer-related arguments
+optimizer:
+
+  class_path: torch.optim.AdamW
+  
+  init_args:
+    
+    #   (type: float, default: 0.001)
+    lr: 0.00002
+    
+    #   (type: float, default: 0.01)
+    weight_decay: 0.1
+    
+    #   (type: tuple, default: (0.9,0.999))
+    betas:
+      - 0.9
+      - 0.95
