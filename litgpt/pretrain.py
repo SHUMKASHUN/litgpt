@@ -130,7 +130,7 @@ def setup(
     else:
         strategy = "auto"
     fabric = L.Fabric(devices=devices, strategy=strategy, precision=precision, loggers=[logger])
-    fabric.launch()
+    # fabric.launch()
 
     fabric.print(pprint.pformat(hparams))
     if logger_name in ("tensorboard", "wandb"):
@@ -329,12 +329,13 @@ def fit(
             if isinstance(val_loss, float):
                 val_loss = f"{val_loss:.3f}"
             fabric.print(
-                f"Epoch {metrics['epoch']+1} | iter {metrics['iter']} step {metrics['step']} |"
+                f" World Size: {fabric.world_size} | Epoch {metrics['epoch']+1} | iter {metrics['iter']} step {metrics['step']} |"
                 f" loss train: {metrics['loss']:.3f},"
                 f" val: {val_loss} |"
                 f" iter time: {metrics['iter_time'] * 1000:.2f} ms"
                 f"{' (step)' if not is_accumulating else ''}"
                 f" remaining time: {timedelta(seconds=int(metrics['remaining_time']))!s}"
+                f" | tokens: {metrics['tokens']:n} | total tokens: {metrics['total_tokens']:n} |"
             )
 
             throughput_metrics = throughput.compute()
